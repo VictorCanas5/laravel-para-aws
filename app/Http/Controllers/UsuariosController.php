@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Log;
+use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UsuariosController extends Controller
 {
@@ -83,9 +86,9 @@ class UsuariosController extends Controller
     public function update(Request $request, $id)
     {
         $usuario= User::findOrFail($request->id);
-        $usuario->nombre = $request->nombre;
+        $usuario->name = $request->name;
         $usuario->email=$request->email;
-        $usuario->contraseña=$request->contraseña;
+        $usuario->password=$request->password;
 
         $usuario->save();
          return $usuario;
@@ -102,9 +105,11 @@ class UsuariosController extends Controller
         $usuario=  User::destroy($id);
         return $usuario;
     }
+
     public function authenticate(Request $request)
     {
       $credentials = $request->only('email', 'password');
+      
       try {
           if (! $token = JWTAuth::attempt($credentials)) {
               return response()->json(['error' => 'invalid_credentials'], 400);
@@ -112,7 +117,20 @@ class UsuariosController extends Controller
       } catch (JWTException $e) {
           return response()->json(['error' => 'could_not_create_token'], 500);
       }
-      return response()->json(compact('token'));
+
+      foreach ($request as $email) {
+         $pene= $email->get('email');
+         $affected = DB::table('users')
+                  ->where('email', $pene)
+                  ->update(['token' => $token]);  
+                  
+      }
+
+       return response()->json(compact('token'));
+
+     
+           
+     
     }
 
     public function getAuthenticatedUser()
@@ -154,6 +172,9 @@ class UsuariosController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
+
+
         return response()->json(compact('user','token'),201);
+
     }
 }

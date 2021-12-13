@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Historial;
+
 class HistorialController extends Controller
 {
     /**
@@ -37,13 +38,11 @@ class HistorialController extends Controller
     public function store(Request $request)
     {
          $historial = new Historial();
-        $historial->fecha_inicio=$request->fecha_inicio;
-        $historial->fecha_final=$request->fecha_final;
-        $historial->hora_inicio=$request->hora_inicio;
-         $historial->hora_final=$request->hora_final;
-          $historial->estado=$request->estado;
-           $historial->descripcion=$request->descripcion;
-           $historial->sensor_id=$request->sensor_id;
+        $historial->fecha_y_hora=$request->fecha_y_hora;
+        $historial->valor=$request->valor;
+        $historial->tipo=$request->tipo;
+         $historial->sensor_id=$request->sensor_id;
+          
 
         $historial->save();
     }
@@ -80,12 +79,10 @@ class HistorialController extends Controller
     public function update(Request $request, $id)
     {
         $historial= Historial::findOrFail($request->id);
-       $historial->fecha_inicio=$request->fecha_inicio;
-        $historial->fecha_final=$request->fecha_final;
-        $historial->hora_inicio=$request->hora_inicio;
-         $historial->hora_final=$request->hora_final;
-          $historial->estado=$request->estado;
-           $historial->descripcion=$request->descripcion;
+       $historial->fecha_y_hora=$request->fecha_y_hora;
+        $historial->valor=$request->valor;
+        $historial->tipo=$request->tipo;
+         $historial->sensor_id=$request->sensor_id;
 
         $historial->save();
          return $historial;

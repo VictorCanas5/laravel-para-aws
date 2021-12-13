@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use App\Models\Historial;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -39,6 +42,50 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
 });
 
+Route::get('/mov', function() 
+{
+
+   $response = Http::withHeaders([
+    'X-AIO-Key' => 'aio_YqXO639XXzwQpzpQYuQGbZV3K56I',
+    
+])->get('https://io.adafruit.com/api/v2/joseissac/feeds/movimiento/data');
+
+
+    return json_decode($response->getBody()->getContents());
+
+
+ } );
+Route::post('/subirtemp','App\Http\Controllers\GuzzleController@InsertTemp');
+Route::post('/subirmov','App\Http\Controllers\GuzzleController@InsertMov');
+Route::post('/subirdist','App\Http\Controllers\GuzzleController@InsertDist');
+Route::post('/subirhume','App\Http\Controllers\GuzzleController@InsertHume');
+
+Route::get('/temp', function() 
+{
+
+   $response = Http::withHeaders([
+    'X-AIO-Key' => 'aio_YqXO639XXzwQpzpQYuQGbZV3K56I',
+    
+])->get('https://io.adafruit.com/api/v2/joseissac/feeds/temperatura/data?limit=1/next');
+
+
+    return json_decode($response->getBody()->getContents());
+
+
+ } );
+Route::get('/dist', function() 
+{
+
+   $response = Http::withHeaders([
+    'X-AIO-Key' => 'aio_YqXO639XXzwQpzpQYuQGbZV3K56I',
+    
+])->get('https://io.adafruit.com/api/v2/joseissac/feeds/distancia/data');
+
+
+   return json_decode($response->getBody()->getContents());
+
+
+ } );
 
 
 

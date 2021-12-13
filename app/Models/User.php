@@ -23,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'password',
         'email',
+        'token',
     ];
     public function sensor()
     {

@@ -10,12 +10,9 @@ class Historial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fecha_inicio',
-'fecha_final',
-'hora_inicio',
-'hora_final',
-'estado',
-'descripcion',
+        'fecha_y_hora',
+'valor',
+'tipo',
 'sensor_id',
     ];
      public function usuarios()

@@ -16,13 +16,9 @@ class CreateHistorials extends Migration
         Schema::create('historials', function (Blueprint $table) {
             $table->id();
             
-            $table->date('fecha_inicio');
-            $table->date('fecha_final');
-            $table->time('hora_inicio');
-            $table->time('hora_final');
-            $table->string('estado',100);
-            $table->string('descripcion',255);
-            
+            $table->string('fecha_y_hora');
+            $table->string('valor',100);
+            $table->string('tipo');
             $table->foreignId('sensor_id')
             ->nullable()
             ->constrained('sensors')

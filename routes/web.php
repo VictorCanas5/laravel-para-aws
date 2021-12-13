@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
-use GuzzleHttp\Client;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,22 +13,7 @@ use GuzzleHttp\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/prueba', function() 
-{
 
-$client = new Client([
-
-                    'base_uri'=> 'https://jsonplaceholder.typicode.com',
-                    'timeout'=> 2.0,
-    ]);
-    
-    $response = $client->request('GET','posts');
-
-    return json_decode($response->getBody()->getContents());
-
-   // return view('welcome');
-
- } );
 
     
 
